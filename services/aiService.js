@@ -1,24 +1,35 @@
-const { Configuration, OpenAIApi } = require('openai');
+import OpenAI from "openai";
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const openai = new OpenAIApi(configuration);
-
 async function generateCode(projectDescription) {
   try {
-    const response = await openai.createCompletion({
+    const response = await openai.chat.completions.create({
       model: "gpt-4o",
-      prompt: `Generate a code base for a project with the following description: ${projectDescription}`,
-      max_tokens: 500
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant that generates code based on project descriptions."
+        },
+        {
+          role: "user",
+          content: `Generate a code base for a project with the following description: ${projectDescription}`
+        }
+      ],
+      temperature: 1,
+      max_tokens: 500,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
     });
-    return response.data.choices[0].text;
+
+    return response.choices[0].message.content;
   } catch (error) {
     console.error('Error generating code:', error);
-    console.error(error.stack);
     throw error;
   }
 }
 
-module.exports = { generateCode };
+export { generateCode };

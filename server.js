@@ -92,6 +92,10 @@ app.use((err, req, res, next) => {
   res.status(500).send("There was an error serving your request.");
 });
 
+// Comment out any middleware or routes that are not essential for the initial startup
+// app.use(authRoutes);
+// app.use(projectRoutes);
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
