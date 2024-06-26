@@ -5,11 +5,16 @@
 <%- include('partials/_header.ejs') %>
 <main role="main" class="container mt-5">
   <h2>Review Generated Code</h2>
-  <pre><code><%= code %></code></pre>
-  <form action="/projects/approve" method="POST">
-    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <button type="submit" class="btn btn-success">Approve</button>
-  </form>
+  <% if (!code || code.trim().length === 0) { %>
+    <p>No code was generated. Please check your project description and try again.</p>
+    <a href="/projects/new" class="btn btn-primary">Return to Project Creation</a>
+  <% } else { %>
+    <pre><code><%= code %></code></pre>
+    <form action="/projects/approve" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <button type="submit" class="btn btn-success">Approve</button>
+    </form>
+  <% } %>
 </main>
 <%- include('partials/_footer.ejs') %>
 </body>
