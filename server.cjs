@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
+const csurf = require('csurf'); // Added for CSRF protection
 const authRoutes = require("./routes/authRoutes.cjs");
 const projectRoutes = require('./routes/projectRoutes.cjs');
 
@@ -47,6 +48,9 @@ app.use(
   }),
 );
 
+// CSRF protection middleware
+app.use(csurf());
+
 app.on("error", (error) => {
   console.error(`Server error: ${error.message}`);
   console.error(error.stack);
@@ -73,7 +77,7 @@ app.use((req, res, next) => {
 app.use(authRoutes);
 
 // Project Routes
-app.use(projectRoutes);
+app.use('/projects', projectRoutes);
 
 // Root path response
 app.get("/", (req, res) => {

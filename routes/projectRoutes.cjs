@@ -11,7 +11,7 @@ router.post('/projects/create', async (req, res) => {
   try {
     const generatedCode = await generateCode(description);
     req.session.generatedCode = generatedCode; // Store the generated code in session for review
-    res.render('reviewCode', { code: generatedCode });
+    res.render('reviewCode', { code: generatedCode, csrfToken: req.csrfToken() });
   } catch (error) {
     console.error('Project creation error:', error);
     console.error(error.stack);
