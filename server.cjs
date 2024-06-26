@@ -47,7 +47,7 @@ app.use(
     store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
     cookie: {
       secure: app.get('env') === 'production', // Secure cookies are enabled only if the app is in production environment
-      maxAge: 3600000 // 1 hour
+      maxAge: 86400000 // 24 hours
     }
   }),
 );
