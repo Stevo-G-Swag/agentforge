@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-5">
+  <h2>Deployment Dashboard</h2>
+  <button id="deployBtn" class="btn btn-primary">Deploy Application</button>
+  <div id="deploymentStatus"></div>
+</main>
+<%- include('partials/_footer.ejs') %>
+<script src="/js/deployment.js"></script>
+</body>
+</html>
