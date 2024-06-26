@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-5">
+  <h2>Review Generated Code</h2>
+  <pre><code><%= code %></code></pre>
+  <form action="/projects/approve" method="POST">
+    <button type="submit" class="btn btn-success">Approve</button>
+  </form>
+</main>
+<%- include('partials/_footer.ejs') %>
+</body>
+</html>
