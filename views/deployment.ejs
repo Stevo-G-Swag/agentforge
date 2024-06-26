@@ -5,7 +5,10 @@
 <%- include('partials/_header.ejs') %>
 <main role="main" class="container mt-5">
   <h2>Deployment Dashboard</h2>
-  <button id="deployBtn" class="btn btn-primary">Deploy Application</button>
+  <form id="deploymentForm">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button id="deployBtn" class="btn btn-primary">Deploy Application</button>
+  </form>
   <div id="deploymentStatus"></div>
 </main>
 <%- include('partials/_footer.ejs') %>

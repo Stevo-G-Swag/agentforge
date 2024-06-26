@@ -105,7 +105,11 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(`Unhandled application error: ${err.message}`);
   console.error(err.stack);
-  res.status(500).send("There was an error serving your request.");
+  if (err.code === 'EBADCSRFTOKEN') {
+    res.status(403).send('Session has expired or form tampered with');
+  } else {
+    res.status(500).send("There was an error serving your request.");
+  }
 });
 
 app.listen(port, () => {
