@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 async function generateCode(projectDescription) {
   try {
-    const response = await openai.Completion.create({
+    const response = await openai.Completion.createCompletion({
       model: "gpt-4o",
       prompt: `Generate a code base for a project with the following description: ${projectDescription}`,
       max_tokens: 500
@@ -14,6 +14,7 @@ async function generateCode(projectDescription) {
     return response.choices[0].text;
   } catch (error) {
     console.error('Error generating code:', error);
+    console.error(error.stack);
     throw error;
   }
 }
