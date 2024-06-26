@@ -88,6 +88,10 @@ app.get("/projects/new", (req, res) => {
   res.render("createProject", { csrfToken: req.csrfToken() });
 });
 
+app.get("/projects/review", (req, res) => {
+  res.render("reviewCode", { csrfToken: req.csrfToken() });
+});
+
 // If no routes handled the request, it's a 404
 app.use((req, res, next) => {
   res.status(404).send("Page not found.");
