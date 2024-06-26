@@ -2,10 +2,12 @@
   "name": "agent-forge",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server.cjs",
   "scripts": {
     "start": "node server.cjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:deploy": "node -e 'require(\"./app.js\").listen(process.env.PORT || 3001)'",
+    "test": "mocha tests/**/*.js",
+    "deploy": "node -e 'require(\"./app.js\").listen(3001)'"
   },
   "keywords": [],
   "author": "",
@@ -32,5 +34,8 @@
     "mocha": "^10.5.1",
     "shelljs": "^0.8.5",
     "supertest": "^7.0.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
