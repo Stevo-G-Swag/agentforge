@@ -1,5 +1,5 @@
 const express = require('express');
-const generateCode = require('../services/aiService');
+const generateCode = require('../services/aiService.js');
 const router = express.Router();
 
 router.get('/projects/new', (req, res) => {
