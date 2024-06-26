@@ -77,7 +77,7 @@ app.use((req, res, next) => {
 app.use(authRoutes);
 
 // Project Routes
-app.use('/projects', projectRoutes);
+app.use(projectRoutes);
 
 // Root path response
 app.get("/", (req, res) => {

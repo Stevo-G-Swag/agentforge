@@ -2,11 +2,11 @@ const express = require('express');
 const generateCode = require('../services/aiService.js');
 const router = express.Router();
 
-router.get('/projects/new', (req, res) => {
+router.get('/new', (req, res) => {
   res.render('createProject');
 });
 
-router.post('/projects/create', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { description } = req.body;
   try {
     const generatedCode = await generateCode(description);
@@ -19,7 +19,7 @@ router.post('/projects/create', async (req, res) => {
   }
 });
 
-router.post('/projects/approve', async (req, res) => {
+router.post('/approve', async (req, res) => {
   try {
     const { generatedCode } = req.session;
     if (!generatedCode) {
