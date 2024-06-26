@@ -18,8 +18,8 @@ async function generateCode(projectDescription) {
           content: `Generate a code base for a project with the following description: ${projectDescription}`
         }
       ],
-      temperature: 1,
-      max_tokens: 500,
+      temperature: 0.3,
+      max_tokens: 4096,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
