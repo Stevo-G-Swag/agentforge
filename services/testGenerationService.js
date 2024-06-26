@@ -1,8 +1,9 @@
 const { describe, it } = require('mocha');
-const { expect } = require('chai');
 const request = require('supertest');
 
-function generateBasicTests(app) {
+async function generateBasicTests(app) {
+  const { expect } = await import('chai');
+
   return `
 const request = require('supertest');
 const app = require('../server');
