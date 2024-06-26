@@ -1,6 +1,6 @@
 const express = require('express');
 const { generateBasicTests } = require('../services/testGenerationService');
-const { deployToCloud } = require('../services/deploymentService');
+const { deployToHeroku } = require('../services/deploymentService');
 const router = express.Router();
 
 router.post('/generate-tests', (req, res) => {
@@ -17,7 +17,7 @@ router.post('/generate-tests', (req, res) => {
 router.post('/deploy', async (req, res) => {
   try {
     const { codePath } = req.body;
-    const deploymentStatus = await deployToCloud(codePath);
+    const deploymentStatus = await deployToHeroku(codePath);
     res.send(deploymentStatus);
   } catch (error) {
     console.error('Deployment error:', error);
