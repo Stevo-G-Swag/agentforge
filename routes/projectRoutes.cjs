@@ -8,6 +8,7 @@ router.get('/new', (req, res) => {
 
 router.post('/create', async (req, res) => {
   const { description } = req.body;
+  console.log('Received project description:', description); // Logging the project description
   try {
     const generatedCode = await generateCode(description);
     req.session.generatedCode = generatedCode; // Store the generated code in session for review
