@@ -80,8 +80,8 @@ app.use(authRoutes);
 app.use(projectRoutes);
 
 // Root path response
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/projects/new", (req, res) => {
+  res.render("createProject", { csrfToken: req.csrfToken() });
 });
 
 // If no routes handled the request, it's a 404

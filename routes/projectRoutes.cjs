@@ -3,7 +3,7 @@ const generateCode = require('../services/aiService.js');
 const router = express.Router();
 
 router.get('/new', (req, res) => {
-  res.render('createProject');
+  res.render('createProject', { csrfToken: req.csrfToken() });
 });
 
 router.post('/create', async (req, res) => {
