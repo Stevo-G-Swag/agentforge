@@ -28,8 +28,9 @@ async function generateCode(projectDescription) {
     return response.choices[0].message.content;
   } catch (error) {
     console.error('Error generating code:', error);
+    console.error(error.stack);
     throw error;
   }
 }
 
-export { generateCode };
+export default generateCode;
