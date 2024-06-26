@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 const express = require("express");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
-const authRoutes = require("./routes/authRoutes");
-const projectRoutes = require('./routes/projectRoutes');
+const authRoutes = require("./routes/authRoutes.cjs");
+const projectRoutes = require('./routes/projectRoutes.cjs');
 
 if (!process.env.DATABASE_URL || !process.env.SESSION_SECRET) {
   console.error("Error: config environment variables not set. Please create/edit .env configuration file.");
