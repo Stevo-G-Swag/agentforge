@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo');
 const csurf = require('csurf'); // Added for CSRF protection
 const authRoutes = require("./routes/authRoutes.cjs");
 const projectRoutes = require('./routes/projectRoutes.cjs');
+const deploymentRoutes = require('./routes/deploymentRoutes.cjs');
 
 if (!process.env.DATABASE_URL || !process.env.SESSION_SECRET) {
   console.error("Error: config environment variables not set. Please create/edit .env configuration file.");
@@ -82,6 +83,9 @@ app.use(authRoutes);
 
 // Project Routes
 app.use(projectRoutes);
+
+// Deployment Routes
+app.use(deploymentRoutes);
 
 // Root path response
 app.get("/projects/new", (req, res) => {
