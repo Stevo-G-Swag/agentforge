@@ -19,11 +19,20 @@ router.post('/projects/create', async (req, res) => {
   }
 });
 
-router.post('/projects/approve', (req, res) => {
-  const { generatedCode } = req.session;
-  // Here, you would typically save the approved code to a database or a file system.
-  console.log('Approved code:', generatedCode);
-  res.send('Code approved and saved successfully!');
+router.post('/projects/approve', async (req, res) => {
+  try {
+    const { generatedCode } = req.session;
+    if (!generatedCode) {
+      throw new Error("No generated code available in session.");
+    }
+    // Here, you would typically save the approved code to a database or a file system.
+    console.log('Approved code:', generatedCode);
+    res.send('Code approved and saved successfully!');
+  } catch (error) {
+    console.error('Approval error:', error);
+    console.error(error.stack);
+    res.status(500).send('Failed to approve project code.');
+  }
 });
 
 module.exports = router;
