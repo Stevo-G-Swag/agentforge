@@ -1,5 +1,5 @@
-import express from 'express';
-import generateCode from '../services/aiService.js';
+const express = require('express');
+const generateCode = require('../services/aiService');
 const router = express.Router();
 
 router.get('/projects/new', (req, res) => {
@@ -26,4 +26,4 @@ router.post('/projects/approve', (req, res) => {
   res.send('Code approved and saved successfully!');
 });
 
-export default router;
+module.exports = router;
