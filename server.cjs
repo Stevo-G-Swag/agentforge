@@ -70,12 +70,10 @@ app.use((req, res, next) => {
 });
 
 // Authentication Routes
-// Temporarily commented out to isolate startup issues
-// app.use(authRoutes);
+app.use(authRoutes);
 
 // Project Routes
-// Temporarily commented out to isolate startup issues
-// app.use(projectRoutes);
+app.use(projectRoutes);
 
 // Root path response
 app.get("/", (req, res) => {
@@ -93,10 +91,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("There was an error serving your request.");
 });
-
-// Comment out any middleware or routes that are not essential for the initial startup
-// app.use(authRoutes);
-// app.use(projectRoutes);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
