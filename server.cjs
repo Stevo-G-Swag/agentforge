@@ -11,6 +11,7 @@ const componentRoutes = require('./routes/componentRoutes');
 const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,10 +22,16 @@ console.log('OpenAI API Key:', process.env.OPENAI_API_KEY); // Debugging line to
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Cookie parser middleware for CSRF token handling
+app.use(cookieParser());
+
 // MongoDB connection
 const mongoUri = process.env.DATABASE_URL;
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
+  .then(() => {
+    console.log('MongoDB connected');
+    mongoose.set('strictQuery', true); // Addressing Mongoose deprecation warning
+  })
   .catch(err => {
     console.error('MongoDB connection error:', err);
     process.exit(1);
