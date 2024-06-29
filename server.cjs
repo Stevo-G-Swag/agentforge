@@ -1,7 +1,9 @@
+require('dotenv').config(); // Ensure this line is at the very top of your file
+
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require('connect-mongo'); // No need to pass `session` here
+const MongoStore = require('connect-mongo');
 const projectRoutes = require('./routes/projectRoutes.cjs');
 const deploymentRoutes = require('./routes/deploymentRoutes.cjs');
 const authRoutes = require('./routes/authRoutes.cjs');
@@ -10,12 +12,8 @@ const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
 
-require('dotenv').config(); // Ensure this line is at the very top of your file
-
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-console.log('OpenAI API Key:', process.env.OPENAI_API_KEY); // Debugging line to check API key loading
 
 // Middleware for parsing JSON and urlencoded data
 app.use(express.json());
@@ -35,7 +33,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  store: MongoStore.create({ mongoUrl: mongoUri })
+  store: MongoStore.create({ mongoUrl: mongoUri }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    maxAge: 1000 * 60 * 60 * 24 // 24 hours
+  }
 }));
 
 // CSRF protection middleware
@@ -63,4 +65,8 @@ app.use((err, req, res, next) => {
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`OpenAI API Key set: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);
 });
+
+module.exports = app; // Export the app for testing purposes
