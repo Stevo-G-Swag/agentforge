@@ -49,6 +49,7 @@ router.post('/logout', (req, res) => {
 router.post('/reauthenticate', (req, res) => {
   if (!req.session || !req.session.userId) {
     console.error('Reauthentication error: No active session');
+    console.error('Reauthentication error: User session not found. Request ID: nWJ9O-khvknjOqwc8QYZWJzjRT2JdAsj');
     res.status(401).send('Session expired. Please log in again.');
   } else {
     res.send('Session is active.');

@@ -30,7 +30,7 @@ const mongoUri = process.env.DATABASE_URL;
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('MongoDB connected');
-    mongoose.set('strictQuery', true); // Addressing Mongoose deprecation warning
+    mongoose.set('strictQuery', false); // Addressing Mongoose deprecation warning by setting strictQuery to false
   })
   .catch(err => {
     console.error('MongoDB connection error:', err);
@@ -68,7 +68,11 @@ app.use('/api', isAuthenticated, csrfProtection, componentRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  if (err.name === 'AuthenticationError' && err.message.includes('Session expired')) {
+    res.status(401).send('Session not found or has expired.');
+  } else {
+    res.status(500).send('Something broke!');
+  }
 });
 
 // Start the server
