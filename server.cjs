@@ -10,7 +10,6 @@ const authRoutes = require('./routes/authRoutes.cjs');
 const componentRoutes = require('./routes/componentRoutes');
 const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
-const sessionMiddleware = require('./middlewares/sessionMiddleware.js');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
@@ -54,7 +53,15 @@ app.use(session({
 }));
 
 // Attach session to res.locals to make it available in EJS views
-app.use(sessionMiddleware);
+app.use((req, res, next) => {
+    if (req.session) {
+        res.locals.session = req.session;
+        console.log('Session data attached to res.locals');
+    } else {
+        console.log('No session data to attach to res.locals');
+    }
+    next();
+});
 
 // CSRF protection middleware
 app.use(csrfProtection);
