@@ -27,10 +27,13 @@ app.use(cookieParser());
 
 // MongoDB connection
 const mongoUri = process.env.DATABASE_URL;
+
+// Set `strictQuery` to false to address Mongoose deprecation warning
+mongoose.set('strictQuery', false);
+
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('MongoDB connected');
-    mongoose.set('strictQuery', false); // Addressing Mongoose deprecation warning by setting strictQuery to false
   })
   .catch(err => {
     console.error('MongoDB connection error:', err);
@@ -65,8 +68,10 @@ app.use('/deploy', isAuthenticated, deploymentRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', componentRoutes);
 
-// CSRF protection middleware should be used after session middleware
-app.use(csrfProtection);
+// Default route
+app.get('/', (req, res) => {
+  res.send('Welcome to AgentForge! Visit /projects, /deploy, /auth for more.');
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
