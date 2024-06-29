@@ -12,9 +12,10 @@ const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const detectPort = require('detect-port');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const defaultPort = 3000;
 
 console.log('OpenAI API Key:', process.env.OPENAI_API_KEY); // Debugging line to check API key loading
 
@@ -96,12 +97,23 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`OpenAI API Key set: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);
-  console.log('Session management initialized.');
+// Start the server on an available port
+detectPort(defaultPort, (err, port) => {
+  if (err) {
+    console.error('Error finding an available port:', err);
+    return;
+  }
+  if (port === defaultPort) {
+    console.log(`Port ${defaultPort} is available.`);
+  } else {
+    console.log(`Port ${defaultPort} is in use. Using available port: ${port}`);
+  }
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`Environment: ${process.env.NODE_ENV}`);
+    console.log(`OpenAI API Key set: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);
+    console.log('Session management initialized.');
+  });
 });
 
 module.exports = app; // Export the app for testing purposes
