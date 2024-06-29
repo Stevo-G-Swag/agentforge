@@ -18,7 +18,7 @@ router.post('/components', isAuthenticated, async (req, res) => {
 });
 
 // GET route to search components
-router.get('/components', isAuthenticated, async (req, res) => {
+router.get('/components', async (req, res) => {
   try {
     const { page = 1, limit = 10, search = "" } = req.query;
     const options = {
