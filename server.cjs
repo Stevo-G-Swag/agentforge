@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo'); // No need to pass `session` here
 const projectRoutes = require('./routes/projectRoutes.cjs');
 const deploymentRoutes = require('./routes/deploymentRoutes.cjs');
 const authRoutes = require('./routes/authRoutes.cjs');
+const componentRoutes = require('./routes/componentRoutes');
 const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
@@ -51,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', isAuthenticated, projectRoutes);
 app.use('/deploy', isAuthenticated, deploymentRoutes);
 app.use('/auth', authRoutes);
+app.use('/api', componentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

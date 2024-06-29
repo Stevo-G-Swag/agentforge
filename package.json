@@ -25,6 +25,7 @@
     "mongod": "^2.0.0",
     "mongodb": "^4.1.0",
     "mongoose": "^6.13.0",
+    "mongoose-paginate-v2": "^1.8.2",
     "openai": "^4.52.2",
     "supertest": "^6.1.6"
   }

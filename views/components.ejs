@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-5">
+  <h2>Component Library</h2>
+  <input type="text" id="searchBox" placeholder="Search components..." oninput="searchComponents()">
+  <div id="componentsList"></div>
+</main>
+<%- include('partials/_footer.ejs') %>
+<script src="/js/components.js"></script>
+</body>
+</html>
