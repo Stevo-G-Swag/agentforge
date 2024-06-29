@@ -56,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/projects', isAuthenticated, projectRoutes);
 app.use('/deploy', isAuthenticated, deploymentRoutes);
 app.use('/auth', authRoutes);
-app.use('/api', componentRoutes);
+app.use('/api', isAuthenticated, csrfProtection, componentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
