@@ -10,6 +10,7 @@ const authRoutes = require('./routes/authRoutes.cjs');
 const componentRoutes = require('./routes/componentRoutes');
 const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
+const sessionMiddleware = require('./middlewares/sessionMiddleware.js');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
@@ -51,6 +52,9 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }));
+
+// Attach session to res.locals to make it available in EJS views
+app.use(sessionMiddleware);
 
 // CSRF protection middleware
 app.use(csrfProtection);
