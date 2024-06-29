@@ -1,4 +1,5 @@
-document.getElementById('deployBtn').addEventListener('click', async function() {
+document.getElementById('deployBtn').addEventListener('click', async function(event) {
+  event.preventDefault(); // Prevent default form submission behavior
   const token = document.querySelector('input[name="_csrf"]').value;
   const response = await fetch('/deploy', {
     method: 'POST',

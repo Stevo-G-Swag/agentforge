@@ -56,6 +56,11 @@ app.use(
 // CSRF protection middleware
 app.use(csurf());
 
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 app.on("error", (error) => {
   console.error(`Server error: ${error.message}`);
   console.error(error.stack);

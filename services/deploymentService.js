@@ -6,6 +6,7 @@ async function deployToHeroku(appName) {
   const herokuApiUrl = 'https://api.heroku.com';
 
   if (!herokuApiToken) {
+    console.error('HEROKU_API_TOKEN is not set in the environment variables');
     throw new Error('HEROKU_API_TOKEN is not set in the environment variables');
   }
 
@@ -31,6 +32,8 @@ async function deployToHeroku(appName) {
         });
         console.log(`App ${appName} created successfully.`);
       } else {
+        console.error('Error checking app existence:', error.message);
+        console.error(error.stack);
         throw error;
       }
     }
@@ -47,6 +50,7 @@ async function deployToHeroku(appName) {
     return { success: true, message: `Deployed to https://${appName}.herokuapp.com` };
   } catch (error) {
     console.error('Deployment error:', error.message);
+    console.error(error.stack);
     throw error;
   }
 }
