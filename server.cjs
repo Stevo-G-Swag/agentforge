@@ -1,122 +1,56 @@
-// Load environment variables
-require("dotenv").config();
-const mongoose = require("mongoose");
-const express = require("express");
-const session = require("express-session");
-const MongoStore = require('connect-mongo');
-const csurf = require('csurf'); // Added for CSRF protection
-const authRoutes = require("./routes/authRoutes.cjs");
+const express = require('express');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo'); // No need to pass `session` here
 const projectRoutes = require('./routes/projectRoutes.cjs');
 const deploymentRoutes = require('./routes/deploymentRoutes.cjs');
-
-if (!process.env.DATABASE_URL || !process.env.SESSION_SECRET) {
-  console.error("Error: config environment variables not set. Please create/edit .env configuration file.");
-  process.exit(-1);
-}
+const authRoutes = require('./routes/authRoutes.cjs');
+const { isAuthenticated } = require('./routes/middleware/authMiddleware');
+const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-// Middleware to parse request bodies
-app.use(express.urlencoded({ extended: true }));
+// Middleware for parsing JSON and urlencoded data
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Setting the templating engine to EJS
-app.set("view engine", "ejs");
-
-// Serve static files
-app.use(express.static("public"));
-
-// Database connection
-mongoose
-  .connect(process.env.DATABASE_URL)
-  .then(() => {
-    console.log("Database connected successfully");
-  })
-  .catch((err) => {
-    console.error(`Database connection error: ${err.message}`);
-    console.error(err.stack);
-    process.exit(1);
+// MongoDB connection
+const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://redknighttoken:QM5E0bXJQ9MAKVh2@agentforge0.1jrm6.mongodb.net/';
+mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit the process if unable to connect to the database
   });
 
-// Session configuration with connect-mongo
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL }),
-    cookie: {
-      secure: app.get('env') === 'production', // Secure cookies are enabled only if the app is in production environment
-      maxAge: 86400000 // 24 hours
-    }
-  }),
-);
+// Session configuration
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: mongoUri }) // Proper way to initialize MongoStore
+}));
 
-// CSRF protection middleware
-app.use(csurf());
+// Set the view engine to ejs
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.on("error", (error) => {
-  console.error(`Server error: ${error.message}`);
-  console.error(error.stack);
-});
+// Routes
+app.use('/projects', isAuthenticated, projectRoutes);
+app.use('/deploy', isAuthenticated, deploymentRoutes);
+app.use('/auth', authRoutes);
 
-// Logging session creation and destruction
-app.use((req, res, next) => {
-  const sess = req.session;
-  // Make session available to all views
-  res.locals.session = sess;
-  if (!sess.views) {
-    sess.views = 1;
-    console.log("Session created at: ", new Date().toISOString());
-  } else {
-    sess.views++;
-    console.log(
-      `Session accessed again at: ${new Date().toISOString()}, Views: ${sess.views}, User ID: ${sess.userId || '(unauthenticated)'}`,
-    );
-  }
-  next();
-});
-
-// Authentication Routes
-app.use(authRoutes);
-
-// Project Routes
-app.use(projectRoutes);
-
-// Deployment Routes
-app.use(deploymentRoutes);
-
-// Root path response
-app.get("/projects/new", (req, res) => {
-  res.render("createProject", { csrfToken: req.csrfToken() });
-});
-
-app.get("/projects/review", (req, res) => {
-  res.render("reviewCode", { csrfToken: req.csrfToken() });
-});
-
-// If no routes handled the request, it's a 404
-app.use((req, res, next) => {
-  res.status(404).send("Page not found.");
-});
-
-// Error handling
+// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(`Unhandled application error: ${err.message}`);
   console.error(err.stack);
-  if (err.code === 'EBADCSRFTOKEN') {
-    res.status(403).send('Session has expired or form tampered with');
-  } else {
-    res.status(500).send("There was an error serving your request.");
-  }
+  res.status(500).send('Something broke!');
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

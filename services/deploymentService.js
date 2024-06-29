@@ -11,7 +11,6 @@ async function deployToHeroku(appName) {
   }
 
   try {
-    // Check if the app exists, create if it doesn't
     try {
       await axios.get(`${herokuApiUrl}/apps/${appName}`, {
         headers: {
@@ -38,7 +37,6 @@ async function deployToHeroku(appName) {
       }
     }
 
-    // Deploy using Git
     console.log('Deploying to Heroku...');
     execSync('git init', { stdio: 'inherit' });
     execSync(`heroku git:remote -a ${appName}`, { stdio: 'inherit' });

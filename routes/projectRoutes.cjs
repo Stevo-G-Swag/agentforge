@@ -1,5 +1,5 @@
 const express = require('express');
-const generateCode = require('../services/aiService.js');
+const generateCode = require('../services/aiService');
 const router = express.Router();
 
 router.get('/new', (req, res) => {
@@ -8,11 +8,11 @@ router.get('/new', (req, res) => {
 
 router.post('/create', async (req, res) => {
   const { description } = req.body;
-  console.log('Received project description:', description); // Logging the project description
-  console.log('Project description received for code generation:', description); // Additional logging as per instructions
+  console.log('Received project description:', description);
+  console.log('Project description received for code generation:', description);
   try {
     const generatedCode = await generateCode(description);
-    req.session.generatedCode = generatedCode; // Store the generated code in session for review
+    req.session.generatedCode = generatedCode;
     res.render('reviewCode', { code: generatedCode, csrfToken: req.csrfToken() });
   } catch (error) {
     console.error('Project creation error:', error);
@@ -27,7 +27,6 @@ router.post('/approve', async (req, res) => {
     if (!generatedCode) {
       throw new Error("No generated code available in session.");
     }
-    // Here, you would typically save the approved code to a database or a file system.
     console.log('Approved code:', generatedCode);
     res.send('Code approved and saved successfully!');
   } catch (error) {
