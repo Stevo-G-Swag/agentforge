@@ -13,6 +13,7 @@ document.getElementById('deployBtn').addEventListener('click', async function(ev
   const data = await response.json();
   if (!response.ok) {
     console.error('Deployment error:', data);
+    console.error(data.stack);
     document.getElementById('deploymentStatus').innerText = `Error: ${data.message}`;
   } else {
     document.getElementById('deploymentStatus').innerText = `Deployment Status: ${data.status}`;
