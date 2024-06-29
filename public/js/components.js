@@ -13,6 +13,11 @@ async function searchComponents() {
     console.error(`Authentication error: User session not found. Request ID: ${response.headers.get('X-Request-ID')}`);
     window.location.href = '/login'; // Redirect to login page
     return;
+  } else if (response.status === 403) {
+    console.error('CSRF token validation error: invalid CSRF token.');
+    console.error(`CSRF token error: CSRF token validation failed. Request ID: ${response.headers.get('X-Request-ID')}`);
+    window.location.href = '/login'; // Redirect to login page due to CSRF token error
+    return;
   }
 
   try {

@@ -65,6 +65,9 @@ app.use('/deploy', isAuthenticated, deploymentRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', componentRoutes);
 
+// CSRF protection middleware should be used after session middleware
+app.use(csrfProtection);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
