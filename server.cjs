@@ -45,7 +45,7 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: mongoUri }),
   cookie: {
     secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-    maxAge: 1000 * 60 * 60 * 24 // 24 hours
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }));
 

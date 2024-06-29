@@ -46,4 +46,13 @@ router.post('/logout', (req, res) => {
   });
 });
 
+router.post('/reauthenticate', (req, res) => {
+  if (!req.session || !req.session.userId) {
+    console.error('Reauthentication error: No active session');
+    res.status(401).send('Session expired. Please log in again.');
+  } else {
+    res.send('Session is active.');
+  }
+});
+
 module.exports = router;

@@ -2,7 +2,8 @@ const isAuthenticated = (req, res, next) => {
   if (req.session && req.session.userId) {
     return next();
   } else {
-    return res.status(401).send('You are not authenticated');
+    console.error(`Authentication error: User session not found. Request ID: ${req.sessionID}`);
+    return res.status(401).send('Authentication failed. Please log in to continue.');
   }
 };
 
