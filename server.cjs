@@ -10,7 +10,7 @@ const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
 
-require('dotenv').config(); // Ensure environment variables are loaded
+require('dotenv').config(); // Ensure this line is at the very top of your file
 
 const app = express();
 const PORT = process.env.PORT || 3000;
