@@ -80,6 +80,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
   console.log(`OpenAI API Key set: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);
+  console.log('Session management initialized.');
 });
 
 module.exports = app; // Export the app for testing purposes
