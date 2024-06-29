@@ -44,7 +44,7 @@ app.use(session({
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: mongoUri }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    secure: process.env.NODE_ENV === 'development' ? false : true, // Use secure cookies in production
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }));
@@ -68,7 +68,9 @@ app.use('/api', isAuthenticated, csrfProtection, componentRoutes);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  if (err.name === 'AuthenticationError' && err.message.includes('Session expired')) {
+  if (err.code === 'EBADCSRFTOKEN') {
+    res.status(403).send('CSRF token validation failed');
+  } else if (err.name === 'AuthenticationError' && err.message.includes('Session expired')) {
     res.status(401).send('Session not found or has expired.');
   } else {
     res.status(500).send('Something broke!');

@@ -5,7 +5,7 @@ const csrfProtection = csurf({
     cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-        sameSite: 'strict', // Added to ensure cookies are sent only in a first-party context
+        sameSite: 'lax', // Changed to 'lax' to allow cookies in a less restrictive context
         maxAge: 3600000 // 1 hour cookie expiration
     }
 });
