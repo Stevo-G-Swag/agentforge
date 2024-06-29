@@ -1,9 +1,7 @@
-require('dotenv').config(); // Ensure this line is at the very top of the file
-
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo'); // No need to pass `session` here
 const projectRoutes = require('./routes/projectRoutes.cjs');
 const deploymentRoutes = require('./routes/deploymentRoutes.cjs');
 const authRoutes = require('./routes/authRoutes.cjs');
@@ -11,12 +9,12 @@ const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
 
+require('dotenv').config(); // Ensure environment variables are loaded
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-if (process.env.NODE_ENV !== 'production') {
-    console.log('OpenAI API Key:', process.env.OPENAI_API_KEY); // Debugging line to check API key loading
-}
+console.log('OpenAI API Key:', process.env.OPENAI_API_KEY); // Debugging line to check API key loading
 
 // Middleware for parsing JSON and urlencoded data
 app.use(express.json());
