@@ -55,4 +55,8 @@ router.post('/reauthenticate', (req, res) => {
   }
 });
 
+router.get('/login', (req, res) => {
+  res.render('login', { csrfToken: req.csrfToken() });
+});
+
 module.exports = router;

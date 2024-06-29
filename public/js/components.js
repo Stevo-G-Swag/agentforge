@@ -4,6 +4,7 @@ async function searchComponents() {
 
   if (response.status === 401) {
     console.error('Authentication error: User is not authenticated.');
+    console.error(`Authentication error: User session not found. Request ID: ${response.headers.get('X-Request-ID')}`);
     window.location.href = '/login'; // Redirect to login page
     return;
   }
