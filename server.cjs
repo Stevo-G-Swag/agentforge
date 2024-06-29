@@ -15,6 +15,8 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+console.log('OpenAI API Key:', process.env.OPENAI_API_KEY); // Debugging line to check API key loading
+
 // Middleware for parsing JSON and urlencoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
