@@ -29,3 +29,34 @@ async function searchComponents() {
     console.error(error.stack);
   }
 }
+
+async function fetchCsrfToken() {
+  const response = await fetch('/api/csrf-token');
+  if (!response.ok) {
+    throw new Error('Failed to fetch CSRF token');
+  }
+  const data = await response.json();
+  return data.csrfToken;
+}
+
+async function postComponent(name, description, codeSnippet) {
+  const csrfToken = await fetchCsrfToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    'CSRF-Token': csrfToken
+  };
+  const body = JSON.stringify({ name, description, codeSnippet });
+
+  const response = await fetch('/api/components', {
+    method: 'POST',
+    headers: headers,
+    body: body
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Failed to post component: ${error}`);
+  }
+
+  return response.json();
+}

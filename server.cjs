@@ -64,15 +64,15 @@ app.use((req, res, next) => {
     next();
 });
 
-// CSRF protection middleware
-app.use(csrfProtection);
-
 // Set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// CSRF protection middleware should be applied after session middleware
+app.use(csrfProtection);
 
 // Routes
 app.use('/projects', isAuthenticated, projectRoutes);

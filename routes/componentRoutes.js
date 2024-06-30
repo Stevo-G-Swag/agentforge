@@ -5,7 +5,7 @@ const csrfProtection = require('../middlewares/csrfProtection');
 const router = express.Router();
 
 // POST route to add a new component
-router.post('/components', isAuthenticated, csrfProtection, async (req, res) => {
+router.post('/components', isAuthenticated, async (req, res) => {
   try {
     const { name, description, codeSnippet } = req.body;
     const newComponent = new Component({ name, description, codeSnippet });
@@ -36,6 +36,11 @@ router.get('/components', async (req, res) => {
     console.error(error.stack);
     res.status(500).json({ error: error.message });
   }
+});
+
+// Route to handle CSRF token requests
+router.get('/csrf-token', csrfProtection, (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
 });
 
 module.exports = router;
