@@ -58,13 +58,13 @@ app.use(session({
 
 // Attach session to res.locals to make it available in EJS views
 app.use((req, res, next) => {
-    if (req.session) {
-        res.locals.session = req.session;
-        console.log('Session data attached to res.locals');
-    } else {
-        console.log('No session data to attach to res.locals');
-    }
-    next();
+  if (req.session) {
+    res.locals.session = req.session;
+    console.log('Session data attached to res.locals');
+  } else {
+    console.log('No session data to attach to res.locals');
+  }
+  next();
 });
 
 // Set the view engine to ejs
