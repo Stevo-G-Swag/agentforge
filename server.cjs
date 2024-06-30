@@ -50,7 +50,7 @@ app.use(session({
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: mongoUri }),
   cookie: {
-    secure: process.env.NODE_ENV === 'development' ? false : true, // Use secure cookies in production
+    secure: false, // Modified to ensure cookies are sent over both secure and insecure connections during development
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }));
@@ -92,8 +92,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   if (err.code === 'EBADCSRFTOKEN') {
     res.status(403).send('CSRF token validation failed');
-  } else if (err.name === 'AuthenticationError' && err.message.includes('Session expired')) {
-    res.status(401).send('Session not found or has expired.');
+  } else if (err.message.includes('Session not found')) {
+    res.redirect('/auth/login');
   } else {
     res.status(500).send('Something broke!');
   }

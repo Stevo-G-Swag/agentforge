@@ -60,4 +60,8 @@ router.get('/login', (req, res) => {
   res.render('login', { csrfToken: req.csrfToken() });
 });
 
+router.get('/register', (req, res) => {
+  res.render('register', { csrfToken: req.csrfToken() });
+});
+
 module.exports = router;
