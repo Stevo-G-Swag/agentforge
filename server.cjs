@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 const http = require('http');
 const socketIo = require('socket.io');
 const detectPort = require('detect-port');
+const firstTimeVisitor = require('./routes/middleware/firstTimeVisitor');
 
 const app = express();
 const defaultPort = 3000;
@@ -75,6 +76,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // CSRF protection middleware should be applied after session middleware
 app.use(csrfProtection);
+
+// Apply firstTimeVisitor middleware globally
+app.use(firstTimeVisitor);
 
 // Routes
 app.use('/projects', isAuthenticated, projectRoutes);

@@ -2,6 +2,9 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/User.js');
 const router = express.Router();
+const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated');
+
+router.use(redirectIfAuthenticated);
 
 router.post('/register', async (req, res) => {
   try {
@@ -9,7 +12,8 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
-    res.status(201).send('User registered successfully');
+    req.session.userId = newUser._id;  // Set user session ID after registration
+    res.redirect('/auth/login');  // Redirect to login after registration
   } catch (error) {
     console.error('Registration error:', error);
     console.error(error.stack);
