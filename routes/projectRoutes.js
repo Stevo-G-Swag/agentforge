@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/new', (req, res) => {
+router.get('/new', (_req, res) => {
   try {
     res.render('createProject');
   } catch (error) {
