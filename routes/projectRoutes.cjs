@@ -36,4 +36,8 @@ router.post('/approve', async (req, res) => {
   }
 });
 
+router.get('/edit', (req, res) => {
+  res.render('codeEditor', { csrfToken: req.csrfToken() });
+});
+
 module.exports = router;

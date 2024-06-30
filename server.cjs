@@ -12,6 +12,8 @@ const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const http = require('http');
+const socketIo = require('socket.io');
 const detectPort = require('detect-port');
 
 const app = express();
@@ -97,6 +99,21 @@ app.use((err, req, res, next) => {
   }
 });
 
+const server = http.createServer(app);
+const io = socketIo(server);
+
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+
+  socket.on('modifyCode', (data) => {
+    socket.broadcast.emit('codeUpdated', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
 // Start the server on an available port
 detectPort(defaultPort, (err, port) => {
   if (err) {
@@ -108,7 +125,7 @@ detectPort(defaultPort, (err, port) => {
   } else {
     console.log(`Port ${defaultPort} is in use. Using available port: ${port}`);
   }
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Server running on port ${port}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
     console.log(`OpenAI API Key set: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);

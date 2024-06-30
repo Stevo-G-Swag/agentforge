@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/_head.ejs') %>
+<body>
+<%- include('partials/_header.ejs') %>
+<main role="main" class="container mt-5">
+  <h2>AI Code Editor</h2>
+  <textarea id="codeEditor" class="form-control" rows="10"></textarea>
+  <button id="saveCode" class="btn btn-success mt-3">Save Changes</button>
+</main>
+<%- include('partials/_footer.ejs') %>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/codeEditor.js"></script>
+</body>
+</html>
