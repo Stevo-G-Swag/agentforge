@@ -4,7 +4,8 @@
   "description": "A project for generating and deploying code.",
   "main": "server.cjs",
   "scripts": {
-    "start": "node server.cjs"
+    "start": "node server.cjs",
+    "dev": "nodemon server.cjs"
   },
   "repository": {
     "type": "git",
@@ -51,5 +52,8 @@
     "socket.io": "^4.7.5",
     "styled-components": "^6.1.11",
     "supertest": "^6.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

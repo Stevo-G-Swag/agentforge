@@ -136,6 +136,8 @@ detectPort(defaultPort, (err, port) => {
     console.log(`OpenAI API Key set: ${process.env.OPENAI_API_KEY ? 'Yes' : 'No'}`);
     console.log('Session management initialized.');
   });
+
+  server.timeout = 1000000; // Set timeout to a higher value
 });
 
 module.exports = app; // Export the app for testing purposes
