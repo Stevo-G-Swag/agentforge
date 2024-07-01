@@ -8,6 +8,7 @@ const projectRoutes = require('./routes/projectRoutes.cjs');
 const deploymentRoutes = require('./routes/deploymentRoutes.cjs');
 const authRoutes = require('./routes/authRoutes.cjs');
 const componentRoutes = require('./routes/componentRoutes');
+const projectModifyRoutes = require('./routes/projectModifyRoutes.js');
 const { isAuthenticated } = require('./routes/middleware/authMiddleware');
 const csrfProtection = require('./middlewares/csrfProtection.js');
 const path = require('path');
@@ -81,7 +82,7 @@ app.use(csrfProtection);
 app.use(firstTimeVisitor);
 
 // Routes
-app.use('/projects', isAuthenticated, projectRoutes);
+app.use('/projects', isAuthenticated, projectRoutes, projectModifyRoutes);
 app.use('/deploy', isAuthenticated, deploymentRoutes);
 app.use('/auth', authRoutes);
 app.use('/api', componentRoutes);

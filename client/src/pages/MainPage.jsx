@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ChatInterface from '../components/ChatInterface';
 import RequirementsSidebar from '../components/RequirementsSidebar';
+import KanbanBoard from '../components/KanbanBoard';
 
 const MainPageContainer = styled.div`
   display: flex;
@@ -18,6 +19,10 @@ const SidebarSection = styled.div`
   width: 300px;
 `;
 
+const KanbanSection = styled.div`
+  width: 100%;
+`;
+
 function MainPage() {
   return (
     <MainPageContainer>
@@ -27,6 +32,9 @@ function MainPage() {
       <SidebarSection>
         <RequirementsSidebar />
       </SidebarSection>
+      <KanbanSection>
+        <KanbanBoard />
+      </KanbanSection>
     </MainPageContainer>
   );
 }
