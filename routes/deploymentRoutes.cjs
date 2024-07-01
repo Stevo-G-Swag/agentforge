@@ -1,6 +1,7 @@
 const express = require('express');
 const { generateBasicTests } = require('../services/testGenerationService');
 const { deployToHeroku } = require('../services/deploymentService');
+const { provideCodeSuggestions } = require('../services/codeSuggestionService');
 const router = express.Router();
 
 router.post('/generate-tests', (req, res) => {
@@ -23,6 +24,18 @@ router.post('/deploy', async (req, res) => {
     console.error('Deployment error:', error);
     console.error(error.stack);
     res.status(500).send('Failed to deploy application');
+  }
+});
+
+router.post('/code-suggestions', async (req, res) => {
+  try {
+    const { codeContent } = req.body;
+    const suggestions = await provideCodeSuggestions(codeContent);
+    res.send(suggestions);
+  } catch (error) {
+    console.error('Error providing code suggestions:', error);
+    console.error(error.stack);
+    res.status(500).send('Failed to provide code suggestions');
   }
 });
 
