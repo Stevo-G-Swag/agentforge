@@ -94,6 +94,11 @@ app.get('/', (_req, res) => {
   res.render('index');
 });
 
+// New route for /components endpoint
+app.get('/components', (_req, res) => {
+  res.render('components');
+});
+
 // Error handling middleware
 app.use((err, _req, res, _next) => {
   console.error(err.stack);

@@ -33,7 +33,7 @@ function ComponentBrowser() {
   useEffect(() => {
     const fetchComponents = async () => {
       const { data } = await axios.get(`/api/components?search=${searchTerm}`);
-      setComponents(data);
+      setComponents(data.docs); // Adjusted to handle the expected data structure
     };
 
     fetchComponents();
