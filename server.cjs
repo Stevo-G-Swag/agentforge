@@ -85,7 +85,9 @@ app.use(firstTimeVisitor);
 app.use('/projects', isAuthenticated, projectRoutes, projectModifyRoutes);
 app.use('/deploy', isAuthenticated, deploymentRoutes);
 app.use('/auth', authRoutes);
-app.use('/api/components', componentRoutes); // Updated route for componentRoutes
+app.use('/api', apiRoutes);
+app.use('/', indexRoutes);
+app.use('/components', componentRoutes);
 
 // Default route
 app.get('/', (_req, res) => {
