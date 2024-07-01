@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Modify Project</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Modify Project</h1>
+    <form action="/projects/modify" method="post">
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" name="projectName" required><br><br>
+
+        <label for="projectDescription">Project Description:</label>
+        <textarea id="projectDescription" name="projectDescription" required></textarea><br><br>
+
+        <label for="projectStatus">Project Status:</label>
+        <select id="projectStatus" name="projectStatus">
+            <option value="pending">Pending</option>
+            <option value="inProgress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <script src="/js/main.js"></script>
+</body>
+</html>

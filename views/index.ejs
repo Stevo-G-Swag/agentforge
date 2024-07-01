@@ -1,15 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/_head.ejs') %>
-  <body>
-<%- include('partials/_header.ejs') %>
+<head>
+    <%- include('partials/_head.ejs') %>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .navbar {
+            background-color: #2c3e50;
+            padding: 1rem 0;
+        }
+        .navbar-brand, .nav-link {
+            color: #ecf0f1 !important;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        main {
+            padding: 2rem 0;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+        .nav-pills .nav-link {
+            color: #2c3e50;
+            background-color: #ecf0f1;
+            margin: 0 0.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .nav-pills .nav-link:hover, .nav-pills .nav-link.active {
+            color: #fff;
+            background-color: #3498db;
+        }
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 1rem 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">AgentForge</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <main role="main" class="container mt-4">
-      <div class="text-center">
-        <h1>AgentForge</h1>
-        <%- include('partials/navigation') %>
-      </div>
+        <div class="text-center">
+            <h1>AgentForge</h1>
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">AgentForge</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Deploy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Auth</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
+        </div>
     </main>
-  </body>
-<%- include('partials/_footer.ejs') %>
-  <script src="/js/main.js"></script>
+
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2024 AgentForge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <%- include('partials/_footer.ejs') %>
+    <script src="/js/main.js"></script>
+</body>
 </html>
