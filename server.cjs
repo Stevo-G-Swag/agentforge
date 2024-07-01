@@ -88,12 +88,12 @@ app.use('/auth', authRoutes);
 app.use('/api', componentRoutes);
 
 // Default route
-app.get('/', (req, res) => {
-  res.send('Welcome to AgentForge! Visit /projects, /deploy, /auth for more.');
+app.get('/', (_req, res) => {
+  res.render('index');
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   console.error(err.stack);
   if (err.code === 'EBADCSRFTOKEN') {
     res.status(403).send('CSRF token validation failed');
