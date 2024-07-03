@@ -32,8 +32,13 @@ function ComponentBrowser() {
 
   useEffect(() => {
     const fetchComponents = async () => {
-      const { data } = await axios.get(`/api/components?search=${searchTerm}`);
-      setComponents(data.docs); // Adjusted to handle the expected data structure
+      try {
+        const { data } = await axios.get(`/api/components?search=${searchTerm}`);
+        setComponents(data.docs);
+      } catch (error) {
+        console.error('Error fetching components:', error);
+        console.error(error.stack);
+      }
     };
 
     fetchComponents();

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SketchPicker } from 'react-color';
 import styled from 'styled-components';
 
 const GeneratorContainer = styled.div`
@@ -17,7 +18,7 @@ function ColorSchemeGenerator() {
   const [baseColor, setBaseColor] = useState('#ffffff');
 
   const generateColorScheme = (baseColor) => {
-    // This is a placeholder for actual color scheme generation logic
+    // Placeholder logic for generating a color scheme
     return [baseColor, '#000000'];
   };
 
@@ -25,10 +26,9 @@ function ColorSchemeGenerator() {
 
   return (
     <GeneratorContainer>
-      <input
-        type="color"
-        value={baseColor}
-        onChange={(e) => setBaseColor(e.target.value)}
+      <SketchPicker
+        color={baseColor}
+        onChangeComplete={(color) => setBaseColor(color.hex)}
       />
       {colors.map(color => (
         <ColorDisplay key={color} color={color} />
