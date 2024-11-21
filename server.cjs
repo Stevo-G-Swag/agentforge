@@ -17,6 +17,8 @@ const http = require('http');
 const socketIo = require('socket.io');
 const detectPort = require('detect-port');
 const firstTimeVisitor = require('./routes/middleware/firstTimeVisitor');
+const apiRoutes = require('./routes/apiRoutes'); // Import apiRoutes
+const indexRoutes = require('./routes/indexRoutes'); // Import indexRoutes
 
 const app = express();
 const defaultPort = 3000;

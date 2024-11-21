@@ -21,10 +21,8 @@ const Dashboard = () => {
     try {
       const response = await axios.post('/deploy/code-suggestions', { codeContent: 'Your code here' });
       setCodeSuggestions(response.data);
-      console.log('Code suggestions received:', response.data);
     } catch (error) {
-      console.error('Error fetching code suggestions:', error);
-      console.error(error.stack);
+      setCodeSuggestions([{ description: 'Failed to fetch code suggestions. Please try again later.' }]);
     }
   };
 

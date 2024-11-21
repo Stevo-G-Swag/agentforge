@@ -12,7 +12,7 @@ const validateProjectInput = [
 ];
 
 // GET request handler for modifying project details
-router.get('/modify/:id', async (req, res) => {
+router.get('/modify/:id', validateProjectInput, async (req, res) => {
   try {
     const projectId = req.params.id;
 

@@ -15,9 +15,7 @@ router.post('/register', async (req, res) => {
     req.session.userId = newUser._id;  // Set user session ID after registration
     res.redirect('/auth/login');  // Redirect to login after registration
   } catch (error) {
-    console.error('Registration error:', error);
-    console.error(error.stack);
-    res.status(500).send('Failed to register user.');
+    res.status(500).json({ error: 'Failed to register user.' });
   }
 });
 
@@ -32,18 +30,14 @@ router.post('/login', async (req, res) => {
       res.status(401).send('Invalid username or password');
     }
   } catch (error) {
-    console.error('Login error:', error);
-    console.error(error.stack);
-    res.status(500).send('Failed to log in.');
+    res.status(500).json({ error: 'Failed to log in.' });
   }
 });
 
 router.post('/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      console.error('Logout error:', err);
-      console.error(err.stack);
-      res.status(500).send('Failed to log out.');
+      res.status(500).json({ error: 'Failed to log out.' });
     } else {
       res.send('User logged out successfully');
     }
@@ -52,9 +46,7 @@ router.post('/logout', (req, res) => {
 
 router.post('/reauthenticate', (req, res) => {
   if (!req.session || !req.session.userId) {
-    console.error('Reauthentication error: No active session');
-    console.error('Reauthentication error: User session not found. Request ID: nWJ9O-khvknjOqwc8QYZWJzjRT2JdAsj');
-    res.status(401).send('Session expired. Please log in again.');
+    res.status(401).json({ error: 'Session expired. Please log in again.' });
   } else {
     res.send('Session is active.');
   }

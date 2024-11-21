@@ -36,7 +36,8 @@ router.get('/', async (req, res) => {
     console.error(error.stack);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
+});
+
 // Route to handle CSRF token requests
 router.get('/csrf-token', csrfProtection, (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
